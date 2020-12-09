@@ -5,6 +5,7 @@
 #include <sys/msg.h>
 #include <string.h>
 #define MSG_KEY 1223
+#include <unistd.h>
 // message queue establising: int msgget(key_t key, int msgflg);
 // message send: int msgsnd(msgid, msgp, size, flag);
 
@@ -19,7 +20,7 @@ int main(int argc, char const * argv[]){
 	int pid = fork();
 	
 	if(pid > 0){
-		while(1){
+		while(pid > 0){
 			struct mybuf buf;
 			/* Message queue establishment*/
 			int msg_id = msgget(MSG_KEY, IPC_CREAT | 0666);
@@ -48,7 +49,6 @@ int main(int argc, char const * argv[]){
 			/* Check if the message received === 'exit' */
 			if(buf.text[0] == 'e' && buf.text[1] == 'x' && buf.text[2] == 'i' && buf.text[3] == 't'){
 				printf("Goodbye\n");
-				abort = 1;
 				break;
 			}
 			/* Put the current process into READY QUEUE */
