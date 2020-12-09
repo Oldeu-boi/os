@@ -2,6 +2,10 @@
 #include <pthread.h>
 #include <stdlib.h>
 
+int cmp (const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
 void * myThread1(void * var){
 	int * temp = (int *)var;
 	for(int i = 0; i < 10; i++){
